@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT-4 Style Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 400px;
+            height: 600px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 15px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 15px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 10px 10px 0 10px;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .message.bot {
+            align-self: flex-start;
+            background-color: #f1f1f1;
+            color: #333333;
+            padding: 10px;
+            border-radius: 10px 10px 10px 0;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 15px;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .chat-input button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">ChatGPT-4 Style Chatbot</div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will be appended here -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type a message..." autocomplete="off">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (userInput.trim() === "") return;
+
+            // Add user's message to chat
+            appendMessage(userInput, 'user');
+
+            // Send message to the server
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userInput }),
+            });
+            const data = await response.json();
+
+            // Add bot's response to chat
+            appendMessage(data.response, 'bot');
+
+            // Clear the input field
+            document.getElementById('userInput').value = '';
+        }
+
+        function appendMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', sender);
+            messageElement.textContent = message;
+            document.getElementById('chat-messages').appendChild(messageElement);
+            messageElement.scrollIntoView();
+        }
+    </script>
+</body>
+</html>
