@@ -1,0 +1,43 @@
+You need to follow some of the steps to run the program 
+
+First : Creating specific Directory
+
+in Terminal type these commands : -  
+mkdir openai_chatbot
+cd openai_chatbot
+
+Create templates directory : - 
+mkdir templates
+
+Then  CREATE NECESSARY  files : - 
+touch app.py basicmodel.py requirements.txt
+touch templates/template.html
+
+Add content to each file by pasting the code given in the git repo : - 
+
+Running the Code : - 
+
+Create a virtual environment for running the code : - 
+python -m venv venv
+source venv/bin/activate 
+# On Windows use `venv\Scripts\activate`
+
+Install the required dependecies ; - 
+pip install -r requirements.txt
+
+For running the flask application you need to write the following commands : -
+python app.py
+
+
+
+
+
+
+
+
+
+
+
+
+
+
